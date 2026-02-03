@@ -1,16 +1,66 @@
-# Specify Extensions
+# Specify Extension System
+
+The extension system provides additional workflow types beyond the core `/specify` workflow for feature development.
 
 ## Available Workflows
 
-### `/product-intake` - Collect product context for constitution generation
+### Core Workflow (Built-in)
 
-**When to use**: When you need to gather product information and prepare a complete input set for `.specify/memory/constitution.md` (`speckit.constitution.md`).
+- **`/specify`** - Create new features from scratch (greenfield development)
 
-**Process**:
-1. Source inventory and gaps
-2. Product synthesis for skill input
-3. Validation and readiness check
+### Extension Workflows
 
-**Key artifacts**: `template.md`, `tasks.md`
+- **`/product-intake`** - Collect product context for constitution generation
+- **`/speckit.bugfix`** - Bug remediation with regression-test-first approach
+- **`/speckit.modify`** - Extend or modify existing features with impact analysis
+- **`/speckit.refactor`** - Improve code quality while preserving behavior with metrics
+- **`/speckit.hotfix`** - Emergency production fixes with expedited checkpoint process
+- **`/speckit.deprecate`** - Planned sunset of features with 3-phase migration
+-
 
-**Example**: `/product-intake "Collect context for the payments revamp"`
+## Enabling Extensions
+
+Extensions are enabled by default in this project. To disable an extension, edit `.specify/extensions/enabled.conf` and
+comment out the workflow.
+
+## Workflow Selection Guide
+
+| Scenario                          | Use This Workflow    |
+|-----------------------------------|----------------------|
+| Prerare constitution.md           | `/product-intake`    |
+| Building new feature              | `/specify`           |
+| Fixing a bug                      | `/speckit.bugfix`    |
+| Adding fields to existing feature | `/speckit.modify`    |
+| Extracting duplicate code         | `/speckit.refactor`  |
+| Production is down                | `/speckit.hotfix`    |
+| Removing old feature              | `/speckit.deprecate` |
+
+## Extension Structure
+
+Each workflow extension contains:
+
+- **Template files** - Markdown templates for specs and documentation
+- **Command definition** - `.codex/propmpts/speckit.{workflow}.md` for AI agents
+- **Bash scripts** - `.specify/scripts/bash/create-{workflow}.sh` for automation
+- **Checkpoint workflow** - Multi-phase approach with review points (plan → tasks → implement)
+
+## Creating Custom Extensions
+
+See `docs/extension-development.md` for guide on creating your own workflow extensions.
+
+## Compatibility
+
+These extensions are designed to be:
+
+- **Agent-agnostic** - Work with Claude Code, GitHub Copilot, Gemini CLI, etc.
+- **Non-breaking** - Don't modify core Specify functionality
+- **Spec Kit compatible** - Follow GitHub Spec Kit conventions for future contribution
+
+## Version
+
+Extension System Version: 2.0.0
+Compatible with Specify Core: v0.0.18+
+
+## License
+
+Same license as parent project (Specify/Spec Kit)
